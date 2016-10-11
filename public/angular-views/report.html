@@ -1,0 +1,77 @@
+    <md-dialog aria-label="Mango (Fruit)" class="fullscreen-dialog">
+      <form ng-cloak>
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+              <md-icon md-svg-src="/img/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-content style="height: 600px;" md-theme="altTheme">
+              <div ng-if="!conReport"> Sin datos para mostrar</div>
+              <section ng-repeat="(key, value) in conReport">
+                <md-subheader class="md-primary">{{key}}</md-subheader>
+                <md-list layout-padding>
+                  <md-list-item class="md-2-line" >
+                      <div class="md-list-item-text" flex="20" align="left">
+                        <h3>Período</h3>
+                      </div>
+                      <div class="md-list-item-text" flex="20" align="right">
+                        <h3>Receita Líquida</h3>
+                      </div>
+                      <div class="md-list-item-text" flex="20" align="right">
+                        <h3>Custo Fixo</h3>
+                      </div>
+                      <div class="md-list-item-text" flex="20" align="right">
+                        <h3>Comissão</h3>
+                      </div>
+                      <div class="md-list-item-text" flex="20" align="right">
+                        <h3>Lucro</h3>
+                      </div>
+                  </md-list-item>
+                  <md-list-item class="md-2-line" ng-repeat="datos in value | orderBy:'mes'" 
+                  style="min-height:20px !important; height:20px !important" ng-if="value.length >0">
+                        <div class="md-list-item-text" flex="20" align="left">
+                        <span>{{datos.periodo}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{datos.Receita_liquida}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{datos.Custo_Fixo}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{datos.comision}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{datos.Lucro}}</span>
+                        </div>           
+                  </md-list-item>
+                  <md-list-item class="md-2-line"
+                  style="min-height:25px !important; height:25px !important;font-weight: bold;">
+                        <div class="md-list-item-text" flex="20">
+                        <span>SALDO</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{calcTotal('Receita_liquida')| number:2}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{calcTotal('Custo_Fixo')| number:2}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{calcTotal('comision')| number:2}}</span>
+                        </div>
+                        <div class="md-list-item-text" flex="20" align="right">
+                        <span>R$ {{calcTotal('Lucro')| number:2}}</span>
+                        </div>            
+                  </md-list-item>
+
+                </md-list>
+              </section>
+        </md-content>
+      </form>
+    </md-dialog>
+

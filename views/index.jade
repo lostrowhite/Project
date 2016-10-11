@@ -1,0 +1,18 @@
+extends layout
+
+block content
+   div(ng-controller='SideNavCtrl' layout="row" layout-align="center" class="chipsdemoContactChips")
+    div
+     md-sidenav(class="md-sidenav-left site-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')")
+      md-toolbar(class="md-theme-indigo")
+       img(class="md-toolbar-tools" src="/img/agence.png" )
+      md-content
+       md-list
+        md-list-item(class="md-5-line" ng-click='getConsultores()')
+         div(class="md-list-item-text")
+          h5 Consultor
+    div(flex="100")
+     h1(class="md-title" align="center")= title
+      div
+       md-button(ng-click="toggleLeft()" class="md-primary" hide-gt-md) Menu
+     div(ng-view)

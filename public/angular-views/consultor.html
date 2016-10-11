@@ -1,0 +1,48 @@
+<div ng-controller="ConsultorCtrl">
+    <md-content layout-padding>
+        <div layout-gt-xs="row">
+          <div flex-gt-xs>
+            <h4>Desde</h4>
+            <md-datepicker ng-model="desde" md-placeholder="Desde"></md-datepicker>
+          </div>
+          <div flex-gt-xs>
+            <h4>Hasta</h4>
+            <md-datepicker ng-model="hasta" md-placeholder="Hasta" ></md-datepicker>
+          </div>
+            <div flex-gt-xs>
+              <md-button class="md-fab" ng-click="showReport($event)" ng-if="consultor.length >0 ">
+                <md-icon md-svg-src="/img/ic_assignment_black_24px.svg"></md-icon>
+              </md-button>
+              <md-button class="md-fab" ng-click="showBarGraph($event)" ng-if="consultor.length >0 ">
+                <md-icon md-svg-src="/img/ic_assessment_black_24px.svg"></md-icon>
+              </md-button>
+              <md-button class="md-fab" ng-click="showPieGraph($event)" ng-if="consultor.length >0 ">
+                <md-icon md-svg-src="/img/ic_pie_chart_black_24px.svg"></md-icon>
+              </md-button>
+            </div>
+        </div>
+    </md-content>
+    <md-content class="md-padding autocomplete" layout="column">
+      <md-contact-chips 
+          ng-model="consultor" 
+          md-contacts="delayedQuerySearch($query)" 
+          md-contact-name="name" 
+          md-contact-image="image" 
+          md-contact-email="email" 
+          md-require-match="true" 
+          md-highlight-flags="i" 
+          filter-selected="filterSelected" 
+          placeholder="Buscar Consultor">
+      </md-contact-chips>
+      <md-list class="fixedRows">
+        <md-subheader class="md-no-sticky">Lista de Consultores</md-subheader>
+        <md-list-item class="md-2-line contact-item" ng-repeat="consultor in consultores">
+          <img ng-src="/img/account_circle_black.png" class="md-avatar" />
+          <div class="md-list-item-text compact">
+            <h3>{{consultor.no_usuario}}</h3>
+            <p>{{consultor.no_email}}</p>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+</div>
