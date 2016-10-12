@@ -152,28 +152,24 @@
               media = media / $scope.consultoresr.length;
               $scope.data.push('avg');
               var ser = $scope.data.indexOf('avg') -1;
-              for (var i = 0; i < $scope.barg.length; i++) {
-                  var env = $scope.conEnviado.indexOf($scope.barg[i].nuser);
-                  meses[$scope.barg[i].mesN-1].splice(env, 0, parseInt($scope.barg[i].Receita_liquida));  
-              }
-              for (var i = 0; i < meses.length; i++) {
-                if (meses[i].length >0 && meses[i].length == $scope.conEnviado.length){
-                  for (var j = 0; j < $scope.conEnviado.length; j++) {
-                    var found = $scope.barg.some(function (el) { return el.nuser === $scope.conEnviado[j]; });
-                    if((!found) && (meses[i].length != $scope.conEnviado.length)){
-                      var index = $scope.conEnviado.map(function (el) { return el; }).indexOf($scope.conEnviado[j]);
-                      meses[i].splice(index, 0, 0);  
+              
+              for (var i = 0; i < $scope.conEnviado.length; i++) {
+                var found = $scope.barg.some(function (el) { return el.nuser === $scope.conEnviado[i]; });
+                for (var j = 0; j < meses.length; j++) {
+                  var valMes = 0;                  
+                    if(found){
+                      valMes = $.grep($scope.barg, function(e){ return e.mesN == j + 1 && e.nuser == $scope.conEnviado[i]; });
+                        if (valMes.length > 0){
+                          meses[j].push(valMes[0].Receita_liquida);
+                        }else{
+                          meses[j].push(0);
+                        }
+                    }else{
+                      meses[j].push(0);
                     }
-                  }
-                }else{
-                  for (var j = 0; j < $scope.conEnviado.length; j++) {
-                    if(meses[i].length != $scope.conEnviado.length){
-                      var index = $scope.conEnviado.map(function (el) { return el; }).indexOf($scope.conEnviado[j]);
-                      meses[i].splice(index, 0, 0);  
-                    }
-                  }
                 }
               }
+              
               for (var i = 0; i < meses.length; i++) {
                   if (meses[i].length) {
                     meses[i].unshift(monthLabels[i]);
@@ -181,7 +177,6 @@
                       meses[i].push(media);
                   }
               }
-
               listaAgrupados.unshift($scope.data);
               if (listaAgrupados.length == 1){
                 $scope.ceros = []
