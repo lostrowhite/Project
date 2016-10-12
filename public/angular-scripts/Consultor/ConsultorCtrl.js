@@ -150,8 +150,8 @@
                  }
               }
               media = media / $scope.consultoresr.length;
-              $scope.data.push('avg');
-              var ser = $scope.data.indexOf('avg') -1;
+              $scope.data.push('Costo Fijo Medio');
+              var ser = $scope.data.indexOf('Costo Fijo Medio') -1;
               
               for (var i = 0; i < $scope.conEnviado.length; i++) {
                 var found = $scope.barg.some(function (el) { return el.nuser === $scope.conEnviado[i]; });
