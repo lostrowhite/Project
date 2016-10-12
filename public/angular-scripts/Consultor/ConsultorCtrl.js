@@ -129,7 +129,7 @@
             $scope.conEnviado = [];
             $scope.data = ['mes'];
             $scope.consultoresr = $scope.consultor.map(function(c) {
-              $scope.conEnviado.push(c);
+              $scope.conEnviado.push(c.user);
               $scope.data.push(c.name);
               c = "'"+c.user+"'";
               return c;
@@ -153,23 +153,46 @@
               $scope.data.push('avg');
               var ser = $scope.data.indexOf('avg') -1;
               for (var i = 0; i < $scope.barg.length; i++) {
-                  meses[$scope.barg[i].mesN-1].push(parseInt($scope.barg[i].Receita_liquida));
+                  var env = $scope.conEnviado.indexOf($scope.barg[i].nuser);
+                  meses[$scope.barg[i].mesN-1].splice(env, 0, parseInt($scope.barg[i].Receita_liquida));  
+              }
+              for (var i = 0; i < meses.length; i++) {
+                if (meses[i].length >0 && meses[i].length == $scope.conEnviado.length){
+                  for (var j = 0; j < $scope.conEnviado.length; j++) {
+                    var found = $scope.barg.some(function (el) { return el.nuser === $scope.conEnviado[j]; });
+                    if((!found) && (meses[i].length != $scope.conEnviado.length)){
+                      var index = $scope.conEnviado.map(function (el) { return el; }).indexOf($scope.conEnviado[j]);
+                      meses[i].splice(index, 0, 0);  
+                    }
+                  }
+                }else{
+                  for (var j = 0; j < $scope.conEnviado.length; j++) {
+                    if(meses[i].length != $scope.conEnviado.length){
+                      var index = $scope.conEnviado.map(function (el) { return el; }).indexOf($scope.conEnviado[j]);
+                      meses[i].splice(index, 0, 0);  
+                    }
+                  }
+                }
               }
               for (var i = 0; i < meses.length; i++) {
                   if (meses[i].length) {
                     meses[i].unshift(monthLabels[i]);
                     listaAgrupados.push(meses[i]);
-                    if (meses[i].length -1 !=$scope.consultoresr.length){
-                      meses[i].push(0);
-                    }
                       meses[i].push(media);
                   }
               }
-              listaAgrupados.unshift($scope.data);
 
+              listaAgrupados.unshift($scope.data);
+              if (listaAgrupados.length == 1){
+                $scope.ceros = []
+                for (var i =0; i < $scope.data.length; i++) {                  
+                  $scope.ceros.push(0);
+                }
+                listaAgrupados.push($scope.ceros);
+              }
               $scope.bar.type = "ComboChart";
               $scope.bar.data = listaAgrupados;
-
+              console.log(listaAgrupados);
               $scope.bar.options = {
                   title : 'Performance Comercial',
                   vAxis: {viewWindow: {max: 32000},
